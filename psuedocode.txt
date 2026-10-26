@@ -1,0 +1,33 @@
+MODULE MainSystem()
+    runAgain = "YES"
+
+    WHILE runAgain == "YES" OR runAgain == "Y" DO
+        OUTPUT "--- FREETOWN COMMUNITY FLOOD LOGIC DATA PORTAL ---"
+        OUTPUT "Enter affected community name:"
+        INPUT communityName
+        OUTPUT "Enter observed drainage water level in cm:"
+        INPUT waterLevelCM
+        OUTPUT "Enter rainfall severity (1 = light, 5 = downpour):"
+        INPUT rainfallScale
+
+        IF waterLevelCM < 0 OR rainfallScale < 1 OR rainfallScale > 5 THEN
+            OUTPUT "INVALID INPUT: Check water level and rainfall scale."
+        ELSE
+            communityRiskIndex = (waterLevelCM * 0.6) + (rainfallScale * RISK_MULTIPLIER)
+
+            IF communityRiskIndex >= 80 THEN
+                OUTPUT "CRITICAL ALERT: Red Status. Trigger local area SMS warning for: " + communityName
+            ELSE IF communityRiskIndex >= 45 THEN
+                OUTPUT "WARNING STATUS: Amber Status. Send an inspection request to FCC clearance crew."
+            ELSE
+                OUTPUT "SYSTEM NORMAL: Green Status. Continue routine environmental monitoring."
+            ENDIF
+        ENDIF
+
+        OUTPUT "Process another drainage report? (YES/NO):"
+        INPUT runAgain
+        runAgain = UPPERCASE(runAgain)
+    ENDWHILE
+
+    OUTPUT "Session ended. Continue monitoring through the responsible agency."
+END MODULE
